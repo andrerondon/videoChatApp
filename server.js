@@ -12,14 +12,15 @@ app.set('views', 'views')
 app.use('/', (req, res)=>{
     res.redirect(`/${uuidV4()}`)
 })
-app.use('/:room', (req, res)=>{
+app.use('/room', (req, res)=>{
     res.render('room', { roomId: req.params.room})
 })
 
-const DOMAIN = '0.0.0.0'
-const PORT = process.env.PORT || 4000;
-
-app.listen(PORT, DOMAIN, () => {
-
-  console.log(`Server is listening on ${DOMAIN}:${PORT}`)
+io.on('connection', socket =>{
+    socket.on('join-room', (roomId, userId)=>{
+        socket.join(roomId)
+        socket.join(roomId).broadcast.emit('user-connected', userId)
+    })
 })
+
+server.listen(3000)
