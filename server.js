@@ -9,10 +9,10 @@ app.use(express.static('public'))
 app.set('view engine', 'ejs') 
 app.set('views', 'views')
 
-app.use('/', (req, res)=>{
+app.get('/', (req, res)=>{
     res.redirect(`/${uuidV4()}`)
 })
-app.use('/room', (req, res)=>{
+app.get('/:room', (req, res)=>{
     res.render('room', { roomId: req.params.room})
 })
 
